@@ -4,6 +4,7 @@ import StarField from "./Starfield.js"
 import MengerSponge from "./MengerSponge.js"
 import SnakeGame from "./SnakeGame.js"
 import Rain from "./Rain.js"
+import Invader from "./Invader.js"
 
 
 export class Game {
@@ -17,15 +18,18 @@ export class Game {
         this.starField = new StarField('yellow')
         this.snakeGame = new SnakeGame()
         this.rain = new Rain()
+        this.invader = new Invader()
     }
     update(deltaTime){
         this.starField.update(deltaTime)
-        this.snakeGame.update(this.input.keys, deltaTime)        
-        this.rain.update()
+        //this.snakeGame.update(this.input.keys, deltaTime)        
+        //this.rain.update()
+        this.invader.update(this.input.keys, deltaTime)
     }
     draw(context){
-        //this.starField.draw(context)
-        this.snakeGame.draw(context)
-        this.rain.draw(context)
+        this.starField.draw(context)
+        //this.snakeGame.draw(context)
+        //this.rain.draw(context)
+        this.invader.draw(context)
     }
 }
