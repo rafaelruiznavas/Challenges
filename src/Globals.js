@@ -7,6 +7,11 @@ export const randomArbitrary = (min, max) => {
     return Math.floor(Math.random() * (max - min)) + min
 }
 
+export const random = (min, max) => {
+    return Math.random() * (max - min) + min
+}
+
+
 export const clamp = (number, min, max) => {
     return number < min ? min : number > max ? max : number
 }
@@ -41,4 +46,24 @@ export const constrain = (n, low, high) => {
 export const distance = (x1, y1, x2, y2) => {
     //return Math.hypot(x1,y1,x2,y2)
     return Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1))
+}
+
+/**
+ * Extrae las componentes x e y de un angulo y las multiplica por la longitud
+ * 
+ * @param {Number} angle 
+ * @param {Number} length 
+ * @returns 
+ */
+export const fromAngle = (angle, length=1) => {
+    return { x: length * Math.cos(angle), y: length * Math.sin(angle)}
+}
+
+/**
+ * Devuelve posicion random
+ * 
+ * @returns {x,y}
+ */
+export const random2D = (length=1) => {
+    return fromAngle(Math.random() * Math.PI * 2, length)
 }

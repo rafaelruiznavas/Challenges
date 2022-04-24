@@ -1,6 +1,8 @@
 export class InputHandler {
-    constructor(){
+    constructor(canvas){
         this.keys = []
+        this.mousePressed = false
+        this.clickPos = null
         window.addEventListener('keydown', e => {
             if((    e.code === 'ArrowDown' ||
                     e.code === 'ArrowUp' ||
@@ -23,6 +25,15 @@ export class InputHandler {
                ){
                 this.keys.splice(this.keys.indexOf(e.code), 1)
             }            
+        })
+
+        canvas.addEventListener("mousedown", e => {
+            this.mousePressed = true
+            this.clickPos = {x: e.offsetX, y: e.offsetY}
+        })
+        window.addEventListener("mouseup", e => {
+            this.mousePressed = false
+            this.clickPos = {x: e.offsetX, y: e.offsetY}
         })
     }
 }
