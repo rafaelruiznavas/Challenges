@@ -28,10 +28,12 @@ export class InputHandler {
         })
 
         canvas.addEventListener("mousedown", e => {
+            e.preventDefault()
             this.mousePressed = true
             this.clickPos = {x: e.offsetX, y: e.offsetY}
         })
-        window.addEventListener("mouseup", e => {
+        canvas.addEventListener("mouseup", e => {
+            e.preventDefault()
             this.mousePressed = false
             this.clickPos = {x: e.offsetX, y: e.offsetY}
         })

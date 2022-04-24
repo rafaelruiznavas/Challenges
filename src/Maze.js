@@ -68,7 +68,7 @@ export class Maze{
         this.current = this.grid[0]
     }
 
-    update(){
+    update(input, deltaTime){
         this.current.visited = true
         let next = this.checkNeighbors(this.current)
         if(next){

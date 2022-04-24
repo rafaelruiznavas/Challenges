@@ -46,7 +46,7 @@ export default class SolarSystem{
         this.sun.spawnMoons(2, 1)
     }
 
-    update(){
+    update(input, deltaTime){
         this.sun.update()
     }
 

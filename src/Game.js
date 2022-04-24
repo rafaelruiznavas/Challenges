@@ -13,6 +13,7 @@ import { Maze } from "./Maze.js"
 export class Game {
     constructor(canvas){
         this.context = canvas.getContext("2d")
+        this.mapChallenges = new Map()
         canvas.width = GAME_WIDTH
         canvas.height= GAME_HEIGHT
 
@@ -21,30 +22,34 @@ export class Game {
         this.maxSpeed = 3
         this.input = new InputHandler(canvas)
         
-        this.starField = new StarField('yellow')
-        this.snakeGame = new SnakeGame()
-        this.rain = new Rain()
-        this.invader = new Invader()
-        this.mitosis = new Mitosis()
-        this.solarSystem = new SolarSystem()
-        this.maze = new Maze(GAME_WIDTH/160)
+        this.mapChallenges.set('starField', new StarField('yellow'))
+        this.mapChallenges.set('snakeGame', new SnakeGame())
+        this.mapChallenges.set('rain', new Rain())
+        this.mapChallenges.set('invader', new Invader())
+        this.mapChallenges.set('mitosis', new Mitosis())
+        this.mapChallenges.set('solarSystem', new SolarSystem())
+        this.mapChallenges.set('maze', new Maze(GAME_WIDTH/40))
+
+        this.selected = 'starField'
     }
     update(deltaTime){
-        this.starField.update(deltaTime)
+        this.mapChallenges.get(this.selected).update(this.input.keys, deltaTime)
+        //this.starField.update(deltaTime)
         //this.snakeGame.update(this.input.keys, deltaTime)        
         //this.rain.update()
         //this.invader.update(this.input.keys, deltaTime)
         //this.mitosis.update(this.input)
         //this.solarSystem.update()
-        this.maze.update()
+        //this.maze.update()
     }
     draw(context){
-        this.starField.draw(context)
+        //this.starField.draw(context)
         //this.snakeGame.draw(context)
         //this.rain.draw(context)
         //this.invader.draw(context)
         //this.mitosis.draw(context)
         //this.solarSystem.draw(context)
-        this.maze.draw(context)
+        //this.maze.draw(context)
+        this.mapChallenges.get(this.selected).draw(context)
     }
 }

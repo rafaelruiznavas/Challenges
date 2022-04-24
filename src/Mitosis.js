@@ -8,7 +8,7 @@ class Cell{
         this.c = color || `rgba(${randomArbitrary(0,255)},0,${randomArbitrary(0,255)},0.3 )`
     }
 
-    update(){
+    update(input, deltaTime){
         const vel = random2D()
         this.pos.x += vel.x
         this.pos.y += vel.y

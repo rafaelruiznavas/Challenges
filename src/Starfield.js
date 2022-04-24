@@ -46,7 +46,7 @@ export default class StarField {
             this.stars.push(new Star(color))
         }
     }
-    update(deltaTime){
+    update(input, deltaTime){
         this.stars.forEach(star => {
             star.update(deltaTime)
         });
