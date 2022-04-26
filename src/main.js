@@ -10,7 +10,6 @@ window.addEventListener("load", () => {
     function animate(timeStamp){
         const deltaTime = timeStamp - lastTime
         lastTime = timeStamp
-        ctx.clearRect(0,0,canvas.width,canvas.height)
         game.update(deltaTime)
         game.draw(ctx)
         requestAnimationFrame(animate)
@@ -35,7 +34,6 @@ window.addEventListener("load", () => {
     }, options);
     
     let target = document.querySelectorAll(".section");
-    console.log(target);
     target.forEach((item) => {
         observer.observe(item);
     });
