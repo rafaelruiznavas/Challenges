@@ -8,6 +8,8 @@ import Invader from "./Invader.js"
 import Mitosis from "./Mitosis.js"
 import SolarSystem from "./SolarSystem.js"
 import { Maze } from "./Maze.js"
+import Lorenz from "./Lorenz.js"
+import ReactionDiffusion from "./ReactionDiffusion.js"
 
 
 export class Game {
@@ -16,40 +18,32 @@ export class Game {
         this.mapChallenges = new Map()
         canvas.width = GAME_WIDTH
         canvas.height= GAME_HEIGHT
+        this.width = canvas.width
+        this.height= canvas.height
 
         this.groundMargin = 40
         this.speed = 0
         this.maxSpeed = 3
         this.input = new InputHandler(canvas)
         
-        this.mapChallenges.set('starField', new StarField('yellow'))
+        this.mapChallenges.set('starField', new StarField('white'))
         this.mapChallenges.set('snakeGame', new SnakeGame())
         this.mapChallenges.set('rain', new Rain())
         this.mapChallenges.set('invader', new Invader())
         this.mapChallenges.set('mitosis', new Mitosis())
         this.mapChallenges.set('solarSystem', new SolarSystem())
-        this.mapChallenges.set('maze', new Maze(GAME_WIDTH/40))
+        this.mapChallenges.set('maze', new Maze(40))
+        this.mapChallenges.set('lorenz', new Lorenz())
+        this.mapChallenges.set('reactiondiffusion', new ReactionDiffusion())
 
-        this.selected = 'starField'
+        this.selected = 'reactiondiffusion'
     }
     update(deltaTime){
-        this.mapChallenges.get(this.selected).update(this.input.keys, deltaTime)
-        //this.starField.update(deltaTime)
-        //this.snakeGame.update(this.input.keys, deltaTime)        
-        //this.rain.update()
-        //this.invader.update(this.input.keys, deltaTime)
-        //this.mitosis.update(this.input)
-        //this.solarSystem.update()
-        //this.maze.update()
+        this.mapChallenges.get(this.selected).update(this.input, deltaTime)
     }
     draw(context){
-        //this.starField.draw(context)
-        //this.snakeGame.draw(context)
-        //this.rain.draw(context)
-        //this.invader.draw(context)
-        //this.mitosis.draw(context)
-        //this.solarSystem.draw(context)
-        //this.maze.draw(context)
+        if(this.selected !== 'lorenz')
+            context.clearRect(0,0,GAME_WIDTH, GAME_HEIGHT)
         this.mapChallenges.get(this.selected).draw(context)
     }
 }

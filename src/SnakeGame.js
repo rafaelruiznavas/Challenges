@@ -113,13 +113,13 @@ export default class SnakeGame {
     }
 
     update(input, deltatime){
-        if(input.includes('ArrowUp')){
+        if(input.keys.includes('ArrowUp')){
             this.snake.dir(0,-1)
-        }else if(input.includes('ArrowDown')){
+        }else if(input.keys.includes('ArrowDown')){
             this.snake.dir(0,1)
-        }else if(input.includes('ArrowRight')){
+        }else if(input.keys.includes('ArrowRight')){
             this.snake.dir(1,0)
-        }else if(input.includes('ArrowLeft')){
+        }else if(input.keys.includes('ArrowLeft')){
             this.snake.dir(-1,0)
         }
 

@@ -70,9 +70,9 @@ class Ship{
     }
 
     update(input, deltaTime){
-        if(input.includes('ArrowRight')){
+        if(input.keys.includes('ArrowRight')){
             this.move(1)
-        }else if(input.includes('ArrowLeft')){
+        }else if(input.keys.includes('ArrowLeft')){
             this.move(-1)
         }
     }
@@ -101,7 +101,7 @@ export default class Invader{
     }
 
     update(input, deltaTime){
-        if(input.includes('Space')){
+        if(input.keys.includes('Space')){
             this.drops.push(new Drop(this.ship.x+10, this.ship.y))
         }
         this.drops.forEach(d => {
@@ -120,7 +120,6 @@ export default class Invader{
             this.flowers.forEach(f => f.shiftDown())
         }
         this.ship.update(input, deltaTime)
-        console.log(this.drops)
     }
 
     draw(context){

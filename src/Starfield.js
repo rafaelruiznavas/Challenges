@@ -40,7 +40,7 @@ class Star {
 }
 
 export default class StarField {
-    constructor(color='white') {
+    constructor(game, color='white') {
         this.stars = []
         for(let i=0;i < 400;i++){
             this.stars.push(new Star(color))

@@ -39,11 +39,11 @@ export default class Mitosis{
         this.cells.push(new Cell())
     }
 
-    update(input){
-        console.log('Cells', this.cells.length)
+    update(input,deltaTime){
+        console.log('Cells', input.mousePressed)
         for(let i= this.cells.length-1;i>=0;i--) {
             const c = this.cells[i]
-            c.update();
+            c.update(input, deltaTime);
             if(input.mousePressed && c.clicked(input.clickPos)){
                 this.cells.push(c.mitosis())
                 this.cells.push(c.mitosis())
