@@ -1,4 +1,4 @@
-import { constrain, GAME_HEIGHT, GAME_WIDTH, randomArbitrary } from "./Globals.js"
+import { clamp, constrain, GAME_HEIGHT, GAME_WIDTH, randomArbitrary } from "./Globals.js"
 
 export default class ReactionDiffusion{
     constructor(){
@@ -7,8 +7,23 @@ export default class ReactionDiffusion{
         this.next = []
         this.dA = 1.0
         this.dB = 0.5
-        this.feed = 0.0545
-        this.k = 0.062
+        this.presets = [
+            { feed: 0.037, kill: 0.06},
+            { feed: 0.03, kill: 0.062},
+            { feed: 0.025, kill: 0.06},
+            { feed: 0.078, kill: 0.061},
+            { feed: 0.029, kill: 0.057},
+            { feed: 0.039, kill: 0.058},
+            { feed: 0.026, kill: 0.051},
+            { feed: 0.034, kill: 0.056},
+            { feed: 0.014, kill: 0.054},
+            { feed: 0.018, kill: 0.051},
+            { feed: 0.014, kill: 0.045},
+            { feed: 0.062, kill: 0.06093}
+        ]
+        this.indexPreset = randomArbitrary(0, this.presets.length)
+        this.feed = this.presets[this.indexPreset].feed
+        this.k = this.presets[this.indexPreset].kill
         for(let x = 0;x<GAME_WIDTH;x++){
             this.grid[x] = []
             this.next[x] = []
@@ -17,11 +32,29 @@ export default class ReactionDiffusion{
                 this.next[x][y] = { a: 1, b: 0}
             }
         }
+
+        for(let i= GAME_WIDTH/2-50;i<GAME_WIDTH/2+50;i++){
+            for(let j= GAME_HEIGHT/2-50;j<GAME_HEIGHT/2+50;j++){
+                this.grid[i][j].b = 1
+            }
+        }
+    }
+
+    changePreset(val){
+        this.indexPreset = clamp(this.indexPreset + val, 0, this.presets.length)
+        this.feed = this.presets[this.indexPreset].feed
+        this.k = this.presets[this.indexPreset].kill
     }
 
     update(input, deltaTime){
+        const dt = 1
         if(input.mousePressed){
             this.grid[input.clickPos.x][input.clickPos.y].b = 1
+        }
+        if(input.keys.includes('ArrowUp')){
+            this.changePreset(-1)
+        }else if(input.keys.includes('ArrowDown')){
+            this.changePreset(1)
         }
         for(let x = 1;x<GAME_WIDTH-1;x++){
             for(let y = 1;y<GAME_HEIGHT-1;y++){
@@ -30,11 +63,11 @@ export default class ReactionDiffusion{
                 this.next[x][y].a = a + 
                     ((this.dA * this.laplaceA(x,y)) -
                     (a * b * b) + 
-                    (this.feed * (1 - a)))  
+                    (this.feed * (1 - a))) * dt 
                 this.next[x][y].b = b +
                     ((this.dB * this.laplaceB(x,y)) +
                     (a * b * b) - 
-                    ((this.k + this.feed) * b)) 
+                    ((this.k + this.feed) * b)) * dt
 
                 this.next[x][y].a = constrain(this.next[x][y].a, 0, 1)
                 this.next[x][y].b = constrain(this.next[x][y].b, 0, 1)

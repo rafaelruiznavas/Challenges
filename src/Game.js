@@ -10,6 +10,7 @@ import SolarSystem from "./SolarSystem.js"
 import { Maze } from "./Maze.js"
 import Lorenz from "./Lorenz.js"
 import ReactionDiffusion from "./ReactionDiffusion.js"
+import FractalTrees from "./FractalTrees.js"
 
 
 export class Game {
@@ -35,6 +36,7 @@ export class Game {
         this.mapChallenges.set('maze', new Maze(40))
         this.mapChallenges.set('lorenz', new Lorenz())
         this.mapChallenges.set('reactiondiffusion', new ReactionDiffusion())
+        this.mapChallenges.set('fractaltrees', new FractalTrees())
 
         this.selected = 'reactiondiffusion'
     }
