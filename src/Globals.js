@@ -23,6 +23,15 @@ export const mapRange = (number, min_in, max_in, min_out, max_out) => {
     //return clamp(mapped, min_out, max_out)
 }
 
+export const rotate = (v, angle) => {
+    const cos = Math.cos(angle)
+    const sin = Math.sin(angle)
+    return {
+        x: v.x * cos - v.y * sin,
+        y: v.x * sin + v.y * cos
+    }
+}
+
 /**
  * Limita un numero entre un valor maximo y uno minimo
  * 

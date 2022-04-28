@@ -38,7 +38,7 @@ export class Game {
         this.mapChallenges.set('reactiondiffusion', new ReactionDiffusion())
         this.mapChallenges.set('fractaltrees', new FractalTrees())
 
-        this.selected = 'reactiondiffusion'
+        this.selected = 'fractaltrees'
     }
     update(deltaTime){
         this.mapChallenges.get(this.selected).update(this.input, deltaTime)

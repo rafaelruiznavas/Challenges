@@ -1,43 +1,74 @@
-import { clamp, GAME_HEIGHT, GAME_WIDTH, random } from "./Globals.js"
+import Branch from "./Branch.js"
+import { GAME_HEIGHT, GAME_WIDTH, random, random2D } from "./Globals.js"
 
 export default class FractalTrees{
     constructor(){
         this.angle = random(0,Math.PI)
+        let a = { x: GAME_WIDTH/2, y: GAME_HEIGHT/1.1}
+        let b = { x: GAME_WIDTH/2, y: (GAME_HEIGHT/1.1)-200}
+        this.tree = []
+        const root = new Branch(a,b)
+        this.tree[0] = root
+        this.leaves = []
+        this.numBranch = 0
+        this.fps = 1
+        this.frameInterval = 1000/this.fps;
+        this.frameTimer = 0;
     }
 
     update(input, deltaTime){
-        if(input.mousePressed){
-            this.angle += 0.1
-        }            
+        // if(input.mousePressed){
+        //     this.growTree()
+        // }
+
+        this.leaves.forEach(l => {
+            if(l.y < GAME_HEIGHT){
+                l.x += random2D().x
+                l.y += 1
+            }                
+        })
+
+        if(this.frameTimer > this.frameInterval){
+            console.log('FRAME')
+            this.frameTimer = 0
+            this.growTree()
+        }else{
+            this.frameTimer += deltaTime
+        }      
+
+    }
+
+    growTree(){
+        if(this.numBranch > 6) return;
+
+        for(let i=this.tree.length-1;i>=0;i--){
+            if(!this.tree[i].finished){
+                this.tree.push(this.tree[i].growBranch(Math.PI/4))
+                this.tree.push(this.tree[i].growBranch(-Math.PI/4))
+                this.tree[i].finished = true
+            }
+        }
+        if(this.numBranch === 6){
+            this.tree.filter(b => !b.finished)
+            .forEach(b => {
+                const leaf = {...b.end}
+                this.leaves.push(leaf)
+            })
+        }
+        this.numBranch++;
+        console.log(this.numBranch)
     }
 
     draw(context){
-        context.save()
         context.strokeStyle = '#fff'
-        context.translate(GAME_WIDTH/2, GAME_HEIGHT/1.5)
-        this.branch(context,100)
-        context.restore()
-    }
+        
+        this.tree.forEach(b => b.draw(context))
 
-    branch(context,len){
-        context.beginPath()
-        context.moveTo(0,0)
-        context.lineTo(0, -len)
-        context.stroke()
-
-        if(len > 4){
-            context.save()
-            context.translate(0, -len)
-            context.save()
-            context.rotate(this.angle)
-            this.branch(context, len * 0.67)
-            context.restore()
-
-            context.save()
-            context.rotate(-this.angle)
-            this.branch(context, len * 0.67)
-            context.restore()
-            context.restore()
-        }
+        this.leaves.forEach(l => {
+            context.beginPath()
+            context.fillStyle = '#ff0000cc'
+            context.arc(l.x, l.y, 5 ,0, 2 * Math.PI,false)
+            context.fill()
+        })
     }
 }
